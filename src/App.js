@@ -1,15 +1,24 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 import { Route } from 'react-router-dom';
 
+const SHELF_LIST = ['currShelf', 'wishlistShelf', 'readShelf'];
 class BooksApp extends React.Component {
   state = {
+    bookList: [],
+    shelfList: []
+  }
 
+  componentDidMount = () => {
+
+    BooksAPI.getAll().then(response => this.setState(() => ({ bookList: [...response], shelfList: SHELF_LIST })));
   }
 
   render() {
+    console.log('this.state.bookList', this.state.bookList)
+    console.log('this.state.shelfList', this.state.shelfList)
     return (
       <div className="app">
         <Route exact path='/' component={() => (
