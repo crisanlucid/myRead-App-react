@@ -6,7 +6,7 @@ import './App.css'
 import { Route } from 'react-router-dom';
 import ListBooksPage from './pages/ListBooksPage';
 
-const SHELF_LIST = ['currShelf', 'wishlistShelf', 'readShelf'];
+const SHELF_LIST = [{ categ: 'currentlyReading', text: 'Currently Reading' }, { categ: 'wantToRead', text: 'Want to Read' }, { categ: 'read', text: 'Read' }];
 class BooksApp extends React.Component {
   state = {
     bookList: [],
@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
   handleUpdateBook = () => {
     console.log('parent update Book with custom Shelf...')
   }
+
   render() {
     console.log('this.state.bookList', this.state.bookList)
     console.log('this.state.shelfList', this.state.shelfList)
