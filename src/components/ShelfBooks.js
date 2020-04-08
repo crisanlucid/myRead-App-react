@@ -6,7 +6,7 @@ import Book from './Book';
 const ShelfBooks = ({ books, shelves, onUpdateBook, title }) => {
     return (
         <div className='bookshelf'>
-            <h2 className='bookshelf-title'>{title}</h2>
+            {title && <h2 className='bookshelf-title'>{title}</h2>}
             <div className='bookshelf-books'>
                 <ol className='books-grid'>
                     {
@@ -24,7 +24,6 @@ const ShelfBooks = ({ books, shelves, onUpdateBook, title }) => {
 ShelfBooks.propTypes = {
     books: PropTypes.array.isRequired,
     shelves: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired,
     onUpdateBook: PropTypes.func.isRequired,
 };
 
