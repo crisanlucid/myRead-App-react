@@ -19,8 +19,17 @@ class BooksApp extends React.Component {
   }
 
 
-  handleUpdateBook = () => {
-    console.log('parent update Book with custom Shelf...')
+  handleUpdateBook = (event, book) => {
+    // console.log('parent update Book with custom Shelf...')
+    const { value: newShelf } = event.target;
+
+    if (newShelf === 'none') return;
+    //create a new list and update the book with the correct shelf position
+    const newBookList = this.state.bookList.map(item => (item.id === book.id ? item.shelf = newShelf : null, item));
+
+    this.setState(() => ({
+      bookList: newBookList
+    }))
   }
 
   handleSearchBook = () => {

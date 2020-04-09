@@ -15,7 +15,7 @@ const Book = ({ book, shelves, onUpdateBook }) => {
                                 `url("${book.imageLinks.thumbnail}")`,
                         }}></div>
                     <div className='book-shelf-changer'>
-                        <select onChange={onUpdateBook}>
+                        <select onChange={event => onUpdateBook(event, book)} value={book.shelf}>
                             <option value='move' disabled>
                                 Move to...
                             </option>

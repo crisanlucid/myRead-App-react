@@ -1,17 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ShelfBook from '../components/ShelfBooks';
 import { Link } from 'react-router-dom'
 
-class ListBooksPage extends Component {
+class ListBooksPage extends PureComponent {
     constructor(props) {
         super(props);
         const { currentlyReading, read, wantToRead } = this.props.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
-        this.state = { currentlyReading, read, wantToRead }
+        this.state = { currentlyReading, read, wantToRead, books: this.props.books }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (JSON.stringify(nextProps.books) === JSON.stringify(prevState.books)) {
+            const { currentlyReading, read, wantToRead } = nextProps.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
+
+            return { currentlyReading, read, wantToRead, books: nextProps.books }
+        }
     }
     render() {
         const { currentlyReading, read, wantToRead } = this.state;
-        console.log(read)
         return (
             <div className='list-books'>
                 <div className='list-books-title'>
