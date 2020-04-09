@@ -6,19 +6,19 @@ import { Link } from 'react-router-dom'
 class ListBooksPage extends PureComponent {
     constructor(props) {
         super(props);
-        const { currentlyReading, read, wantToRead } = this.props.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
-        this.state = { currentlyReading, read, wantToRead, books: this.props.books }
+        const { currentlyReading: booksCurrentlyReading, read: booksRead, wantToRead: booksWantToRead } = this.props.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
+        this.state = { booksCurrentlyReading, booksRead, booksWantToRead, books: this.props.books }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (JSON.stringify(nextProps.books) === JSON.stringify(prevState.books)) {
-            const { currentlyReading, read, wantToRead } = nextProps.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
+            const { currentlyReading: booksCurrentlyReading, read: booksRead, wantToRead: booksWantToRead } = nextProps.books.reduce((acc, book, i) => (acc[book.shelf] = [...acc[book.shelf] || [], book], acc), {})
 
-            return { currentlyReading, read, wantToRead, books: nextProps.books }
+            return { booksCurrentlyReading, booksRead, booksWantToRead, books: nextProps.books }
         }
     }
     render() {
-        const { currentlyReading, read, wantToRead } = this.state;
+        const { booksCurrentlyReading, booksRead, booksWantToRead } = this.state;
         return (
             <div className='list-books'>
                 <div className='list-books-title'>
@@ -26,25 +26,25 @@ class ListBooksPage extends PureComponent {
                 </div>
                 <div className='list-books-content'>
                     <div>
-                        {currentlyReading && (
+                        {booksCurrentlyReading && (
                             <ShelfBook
-                                books={currentlyReading}
+                                books={booksCurrentlyReading}
                                 title='Currently Reading'
                                 shelves={this.props.shelves}
                                 onUpdateBook={this.props.onUpdateBook}
                             />
                         )}
-                        {wantToRead && (
+                        {booksWantToRead && (
                             <ShelfBook
-                                books={wantToRead}
+                                books={booksWantToRead}
                                 title='Want to Read'
                                 shelves={this.props.shelves}
                                 onUpdateBook={this.props.onUpdateBook}
                             />
                         )}
-                        {read && (
+                        {booksRead && (
                             <ShelfBook
-                                books={read}
+                                books={booksRead}
                                 title='Read'
                                 shelves={this.props.shelves}
                                 onUpdateBook={this.props.onUpdateBook}
