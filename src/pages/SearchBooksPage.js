@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import ShelfBooks from '../components/ShelfBooks';
 
 class SearchBookPage extends Component {
 
+    handleUpdateBook = () => {
+        console.log('update shelf...')
+    }
+
+    handleSearchBox = () => {
+        console.log('child search books...')
+    }
+
     render() {
+        const { books, shelves } = this.props;
         return (<div className="search-books">
             <div className="search-books-bar">
                 <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
@@ -22,7 +31,11 @@ class SearchBookPage extends Component {
                 </div>
             </div>
             <div className="search-books-results">
-                <ol className="books-grid"></ol>
+                <ShelfBooks
+                    books={books}
+                    shelves={shelves}
+                    onUpdateBook={this.handleUpdateBook}
+                />
             </div>
         </div>)
     }
