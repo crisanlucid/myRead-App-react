@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ShelfBooks from '../components/ShelfBooks';
+import { Link } from 'react-router-dom';
 
 class SearchBookPage extends Component {
 
@@ -16,7 +17,7 @@ class SearchBookPage extends Component {
         const { books, shelves } = this.props;
         return (<div className="search-books">
             <div className="search-books-bar">
-                <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+                <Link to="/"><button className="close-search">Close</button></Link>
                 <div className="search-books-input-wrapper">
                     {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
