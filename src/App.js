@@ -67,7 +67,7 @@ class BooksApp extends React.Component {
       console.log(response);
       let newBookList = [];
       if (Array.isArray(response)) {
-        newBookList = [...response];
+        newBookList = response.map((book) => ((book.shelf = 'none'), book));
       }
       this.setState(() => ({
         bookList: [...newBookList],
