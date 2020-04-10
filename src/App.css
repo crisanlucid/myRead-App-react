@@ -1,5 +1,15 @@
 html, body, .root {
   height: 100%;
+  /* Base color using HSL */
+  --hue: 120;
+  --saturation: 64%;
+  --light: 44%;
+  /* Base color in variable */
+  --primary-color: hsl(var(--hue), var(--saturation), var(--light));
+  /* Base color lighten using calc */
+  --primary-color-lighten: hsl(var(--hue), var(--saturation), calc(var(--light) + 10%));
+  /* Base color darken using calc */
+  --primary-color-darken: hsl(var(--hue), var(--saturation), calc(var(--light) - 10%));
 }
 
 body {
@@ -14,7 +24,7 @@ body, .app {
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: var(--primary-color);
   text-align: center;
 }
 
@@ -58,7 +68,7 @@ body, .app {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: var(--primary-color-darken);
   background-image: url('./icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -70,7 +80,7 @@ body, .app {
 }
 
 .open-search button:hover {
-  background-color: rgb(0, 102, 0);
+  background-color: var(--primary-color-lighten);
 }
 
 /* search page */
@@ -169,7 +179,7 @@ button:active {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: var(--primary-color-darken);
   background-image: url('./icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
