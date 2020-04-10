@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 class ListBooksPage extends PureComponent {
   constructor(props) {
     super(props);
+    /* eslint-disable no-sequences */
     const {
       currentlyReading: booksCurrentlyReading,
       read: booksRead,
       wantToRead: booksWantToRead,
     } = this.props.books.reduce(
-      (acc, book, i) => (
+      (acc, book) => (
         (acc[book.shelf] = [...(acc[book.shelf] || []), book]), acc
       ),
       {},
@@ -26,6 +27,7 @@ class ListBooksPage extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (JSON.stringify(nextProps.books) === JSON.stringify(prevState.books)) {
+      /* eslint-disable no-sequences */
       const {
         currentlyReading: booksCurrentlyReading,
         read: booksRead,

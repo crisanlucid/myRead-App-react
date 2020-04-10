@@ -24,11 +24,11 @@ class BooksApp extends React.Component {
   };
 
   handleUpdateBook = (event, book) => {
-    // console.log('parent update Book with custom Shelf...')
     const { value: newShelf } = event.target;
 
     if (newShelf === 'none') return;
     //create a new list and update the book with the correct shelf position
+    /* eslint-disable no-sequences */
     const newBookList = this.state.bookList.map(
       (item) => (item.id === book.id ? (item.shelf = newShelf) : null, item),
     );
@@ -39,8 +39,6 @@ class BooksApp extends React.Component {
   };
 
   handleSearchBooks = (queryBooks) => {
-    // console.log('parent update List of Books...');
-
     //clear flag
     localStorage.removeItem('clearSearch');
 
@@ -64,7 +62,6 @@ class BooksApp extends React.Component {
     }
     //search from API
     BooksAPI.search(queryBooks).then((response) => {
-      console.log(response);
       let newBookList = [];
       if (Array.isArray(response)) {
         newBookList = response.map((book) => ((book.shelf = 'none'), book));
@@ -76,8 +73,6 @@ class BooksApp extends React.Component {
   };
 
   render() {
-    console.log('this.state.bookList', this.state.bookList);
-    console.log('this.state.shelfList', this.state.shelfList);
     const { bookList, shelfList } = this.state;
     return (
       <div className='app'>
