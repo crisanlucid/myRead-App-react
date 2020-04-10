@@ -6,20 +6,20 @@ import SearchBooks from '../components/SearchBooks';
 
 class SearchBookPage extends Component {
   render() {
-    const { books, shelves, handleSearchBox, onSearchBooks } = this.props;
+    const { books, shelves, onUpdateBook, onSearchBooks } = this.props;
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
           <Link to='/'>
             <button className='close-search'>Close</button>
           </Link>
-          <SearchBooks onSearchBooks={handleSearchBox} />
+          <SearchBooks onSearchBooks={onSearchBooks} />
         </div>
         <div className='search-books-results'>
           <ShelfBooks
             books={books}
             shelves={shelves}
-            onUpdateBook={onSearchBooks}
+            onUpdateBook={onUpdateBook}
           />
         </div>
       </div>
