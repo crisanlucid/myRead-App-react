@@ -38,8 +38,39 @@ class BooksApp extends React.Component {
     }));
   };
 
-  handleSearchBook = () => {
+  handleSearchBooks = (queryBooks) => {
     console.log('parent update List of Books...');
+    console.log(queryBooks);
+
+    //validation
+    if (!queryBooks) {
+      const cachedBooks = localStorage.getItem('books');
+
+      if (!cachedBooks) {
+        BooksAPI.getAll().then((response) =>
+          this.setState(() => ({
+            bookList: [...response],
+          })),
+        );
+      } else {
+        this.setState(() => ({
+          bookList: [...JSON.parse(cachedBooks)],
+        }));
+      }
+
+      return;
+    }
+    //search from API
+    BooksAPI.search(queryBooks).then((response) => {
+      console.log(response);
+      let newBookList = [];
+      if (Array.isArray(response)) {
+        newBookList = [...response];
+      }
+      this.setState(() => ({
+        bookList: [...newBookList],
+      }));
+    });
   };
 
   render() {
@@ -66,7 +97,7 @@ class BooksApp extends React.Component {
               books={bookList}
               shelves={shelfList}
               onUpdateBook={this.handleUpdateBook}
-              onSearchBook={this.handleSearchBook}
+              onSearchBooks={this.handleSearchBooks}
             />
           )}
         />
