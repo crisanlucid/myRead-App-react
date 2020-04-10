@@ -45,6 +45,14 @@ class ListBooksPage extends PureComponent {
       };
     }
   }
+
+  redirectLink = () => {
+    localStorage.setItem('clearSearch', true);
+    return {
+      pathname: '/search',
+    };
+  };
+
   render() {
     const { booksCurrentlyReading, booksRead, booksWantToRead } = this.state;
     return (
@@ -81,7 +89,7 @@ class ListBooksPage extends PureComponent {
           </div>
         </div>
         <div className='open-search'>
-          <Link to='/search'>
+          <Link to={this.redirectLink}>
             <button>Add a book</button>
           </Link>
         </div>

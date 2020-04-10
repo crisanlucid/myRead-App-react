@@ -39,8 +39,10 @@ class BooksApp extends React.Component {
   };
 
   handleSearchBooks = (queryBooks) => {
-    console.log('parent update List of Books...');
-    console.log(queryBooks);
+    // console.log('parent update List of Books...');
+
+    //clear flag
+    localStorage.removeItem('clearSearch');
 
     //validation
     if (!queryBooks) {

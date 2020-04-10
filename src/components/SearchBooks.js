@@ -3,9 +3,17 @@ import PropTypes from 'prop-types';
 
 const SEARCH_BOOK_KEY = 'searchBook';
 class SearchBooks extends Component {
-  state = {
-    text: localStorage.getItem(SEARCH_BOOK_KEY) || '',
-  };
+  constructor(props) {
+    super(props);
+
+    let currentSearchBook = this.props.clearSearch
+      ? ''
+      : localStorage.getItem(SEARCH_BOOK_KEY) || '';
+
+    this.state = {
+      text: currentSearchBook,
+    };
+  }
 
   handleOnChangeInput = (event) => {
     const { value: searchQueryBook } = event.target;
@@ -41,6 +49,7 @@ class SearchBooks extends Component {
 
 SearchBooks.propTypes = {
   onSearchBooks: PropTypes.func.isRequired,
+  clearSearch: PropTypes.bool.isRequired,
 };
 
 export default SearchBooks;

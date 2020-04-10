@@ -7,13 +7,16 @@ import SearchBooks from '../components/SearchBooks';
 class SearchBookPage extends Component {
   render() {
     const { books, shelves, onUpdateBook, onSearchBooks } = this.props;
+
+    const clearText = !!localStorage.getItem('clearSearch');
+
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
           <Link to='/'>
             <button className='close-search'>Close</button>
           </Link>
-          <SearchBooks onSearchBooks={onSearchBooks} />
+          <SearchBooks onSearchBooks={onSearchBooks} clearSearch={clearText} />
         </div>
         <div className='search-books-results'>
           <ShelfBooks
