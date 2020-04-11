@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const SEARCH_BOOK_KEY = 'searchBook';
+const DEBOUNCE_MILISECONDS = 80;
+
+const debounce = (func, delay) => {
+  let inDebounce;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(inDebounce);
+    inDebounce = setTimeout(() => func.apply(context, args), delay);
+  };
+};
 class SearchBooks extends Component {
   constructor(props) {
     super(props);
@@ -15,15 +26,16 @@ class SearchBooks extends Component {
     };
   }
 
-  handleOnChangeInput = (event) => {
-    const { value: searchQueryBook } = event.target;
+  handleOnChangeInput = debounce((searchQueryBook) => {
+    //call again the function until a certain amount of  time has passed since last call
+    //200 ms
     this.props.onSearchBooks(searchQueryBook);
 
     this.setState(
       () => ({ text: searchQueryBook }),
       localStorage.setItem(SEARCH_BOOK_KEY, searchQueryBook),
     );
-  };
+  }, DEBOUNCE_MILISECONDS);
 
   render() {
     return (
@@ -38,7 +50,7 @@ class SearchBooks extends Component {
                 */}
         <input
           type='text'
-          onChange={this.handleOnChangeInput}
+          onChange={(event) => this.handleOnChangeInput(event.target.value)}
           value={this.state.text}
           placeholder='Search by title or author'
         />
