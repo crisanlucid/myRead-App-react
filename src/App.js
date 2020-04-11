@@ -19,10 +19,18 @@ class BooksApp extends React.Component {
 
   componentDidMount = () => {
     const queryBooks = localStorage.getItem('searchBook');
+    const bookList = JSON.parse(localStorage.getItem('books'));
+
+    let isUpdate = false;
+    if (!bookList) isUpdate = true;
+
+    if (Array.isArray(bookList) && bookList.length === 0) {
+      isUpdate = true;
+    }
 
     this.setState(() => ({ shelfList: SHELF_LIST }));
 
-    if (queryBooks) {
+    if (queryBooks && isUpdate) {
       //search from API
       this.searchBooksAPI(queryBooks);
     }
@@ -47,9 +55,6 @@ class BooksApp extends React.Component {
   };
 
   handleSearchBooks = (queryBooks) => {
-    //clear flag
-    localStorage.removeItem('clearSearch');
-
     //validation
     if (!queryBooks) {
       this.setState(
