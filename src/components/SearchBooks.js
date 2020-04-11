@@ -2,24 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const SEARCH_BOOK_KEY = 'searchBook';
-const DEBOUNCE_MILISECONDS = 80;
+const DEBOUNCE_MILISECONDS = 400;
 
 const debounce = (func, delay) => {
   let inDebounce;
   return function () {
-    const context = this;
-    const args = arguments;
+    let context = this,
+      args = arguments;
     clearTimeout(inDebounce);
-    inDebounce = setTimeout(() => func.apply(context, args), delay);
+    inDebounce = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
   };
 };
 class SearchBooks extends Component {
   constructor(props) {
     super(props);
 
-    let currentSearchBook = this.props.clearSearch
-      ? ''
-      : localStorage.getItem(SEARCH_BOOK_KEY) || '';
+    let currentSearchBook = localStorage.getItem(SEARCH_BOOK_KEY) || '';
 
     this.state = {
       text: currentSearchBook,
@@ -27,14 +27,15 @@ class SearchBooks extends Component {
   }
 
   handleOnChangeInput = debounce((searchQueryBook) => {
-    //call again the function until a certain amount of  time has passed since last call
-    //200 ms
-    this.props.onSearchBooks(searchQueryBook);
-
     this.setState(
       () => ({ text: searchQueryBook }),
       localStorage.setItem(SEARCH_BOOK_KEY, searchQueryBook),
     );
+
+    console.log('hello');
+    //call again the function until a certain amount of  time has passed since last call
+    //200 ms
+    this.props.onSearchBooks(searchQueryBook);
   }, DEBOUNCE_MILISECONDS);
 
   render() {
@@ -61,7 +62,6 @@ class SearchBooks extends Component {
 
 SearchBooks.propTypes = {
   onSearchBooks: PropTypes.func.isRequired,
-  clearSearch: PropTypes.bool.isRequired,
 };
 
 export default SearchBooks;

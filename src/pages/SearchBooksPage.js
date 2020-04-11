@@ -8,15 +8,13 @@ class SearchBookPage extends Component {
   render() {
     const { books, shelves, onUpdateBook, onSearchBooks } = this.props;
 
-    const clearText = !!localStorage.getItem('clearSearch');
-
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
           <Link to='/'>
             <button className='close-search'>Close</button>
           </Link>
-          <SearchBooks onSearchBooks={onSearchBooks} clearSearch={clearText} />
+          <SearchBooks onSearchBooks={onSearchBooks} />
         </div>
         <div className='search-books-results'>
           <ShelfBooks
