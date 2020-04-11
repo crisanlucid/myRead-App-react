@@ -13,14 +13,19 @@ const SHELF_LIST = [
 ];
 class BooksApp extends React.Component {
   state = {
-    bookList: [],
+    bookList: JSON.parse(localStorage.getItem('books')) || [],
     shelfList: [],
   };
 
   componentDidMount = () => {
-    BooksAPI.getAll().then((response) =>
-      this.setState(() => ({ bookList: [...response], shelfList: SHELF_LIST })),
-    );
+    const queryBooks = localStorage.getItem('searchBook');
+
+    this.setState(() => ({ shelfList: SHELF_LIST }));
+
+    if (queryBooks) {
+      //search from API
+      this.searchBooksAPI(queryBooks);
+    }
   };
 
   handleUpdateBook = (event, book) => {
@@ -33,9 +38,12 @@ class BooksApp extends React.Component {
       (item) => (item.id === book.id ? (item.shelf = newShelf) : null, item),
     );
 
-    this.setState(() => ({
-      bookList: newBookList,
-    }));
+    this.setState(
+      () => ({
+        bookList: newBookList,
+      }),
+      localStorage.setItem('books', JSON.stringify([...newBookList])),
+    );
   };
 
   handleSearchBooks = (queryBooks) => {
@@ -44,31 +52,30 @@ class BooksApp extends React.Component {
 
     //validation
     if (!queryBooks) {
-      const cachedBooks = localStorage.getItem('books');
-
-      if (!cachedBooks) {
-        BooksAPI.getAll().then((response) =>
-          this.setState(() => ({
-            bookList: [...response],
-          })),
-        );
-      } else {
-        this.setState(() => ({
-          bookList: [...JSON.parse(cachedBooks)],
-        }));
-      }
-
+      this.setState(
+        () => ({
+          bookList: [],
+        }),
+        localStorage.setItem('books', JSON.stringify([])),
+      );
       return;
     }
     //search from API
+    this.searchBooksAPI(queryBooks);
+  };
+
+  searchBooksAPI = (queryBooks) => {
     BooksAPI.search(queryBooks).then((response) => {
       let newBookList = [];
       if (Array.isArray(response)) {
         newBookList = response.map((book) => ((book.shelf = 'none'), book));
       }
-      this.setState(() => ({
-        bookList: [...newBookList],
-      }));
+      this.setState(
+        () => ({
+          bookList: [...newBookList],
+        }),
+        localStorage.setItem('books', JSON.stringify([...newBookList])),
+      );
     });
   };
 
