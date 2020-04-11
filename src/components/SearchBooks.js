@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 const SEARCH_BOOK_KEY = 'searchBook';
 const DEBOUNCE_MILISECONDS = 400;
 
-const debounce = (func, delay) => {
-  let inDebounce;
-  return function () {
-    let context = this,
-      args = arguments;
-    clearTimeout(inDebounce);
-    inDebounce = setTimeout(() => {
-      func.apply(context, args);
-    }, delay);
-  };
-};
 class SearchBooks extends Component {
   constructor(props) {
     super(props);
@@ -24,19 +15,32 @@ class SearchBooks extends Component {
     this.state = {
       text: currentSearchBook,
     };
-  }
 
-  handleOnChangeInput = debounce((searchQueryBook) => {
+    this.onSearch$ = new Subject();
+  }
+  componentDidMount = () => {
+    this.subscription = this.onSearch$
+      //call again the function until a certain amount of  time has passed since last call
+      .pipe(debounceTime(DEBOUNCE_MILISECONDS))
+      .subscribe((searchQueryBook) =>
+        this.props.onSearchBooks(searchQueryBook),
+      );
+  };
+
+  componentWillUnmount = () => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  };
+
+  handleOnChangeInput = (searchQueryBook) => {
     this.setState(
       () => ({ text: searchQueryBook }),
       localStorage.setItem(SEARCH_BOOK_KEY, searchQueryBook),
     );
 
-    console.log('hello');
-    //call again the function until a certain amount of  time has passed since last call
-    //200 ms
-    this.props.onSearchBooks(searchQueryBook);
-  }, DEBOUNCE_MILISECONDS);
+    this.onSearch$.next(searchQueryBook);
+  };
 
   render() {
     return (

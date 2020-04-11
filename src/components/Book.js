@@ -6,12 +6,22 @@ class Book extends Component {
     shelf: this.props.book.shelf,
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.book.shelf !== prevState.shelf) {
+      return {
+        shelf: nextProps.book.shelf,
+      };
+    }
+
+    return null;
+  }
   handleUpdateBook = (event, book) => {
     this.props.onUpdateBook(event, book);
   };
 
   render() {
     const { book, shelves } = this.props;
+
     return (
       <li>
         <div className='book'>
