@@ -44,19 +44,39 @@ class BooksApp extends React.Component {
   handleUpdateBook = (event, book) => {
     const { value: newShelf } = event.target;
 
-    if (newShelf === 'none') return;
-    //create a new list and update the book with the correct shelf position
-    /* eslint-disable no-sequences */
-    const newBookList = this.state.bookList.map(
-      (item) => (item.id === book.id ? (item.shelf = newShelf) : null, item),
-    );
+    if (book.shelf === newShelf) return;
 
-    this.setState(
-      () => ({
-        bookList: newBookList,
-      }),
-      localStorage.setItem('books', JSON.stringify([...newBookList])),
-    );
+    //optimistic approach
+    const initBookList = this.state.bookList;
+    try {
+      //create a new list and update the book with the correct shelf position/
+      const updateBook = { ...book, shelf: newShelf };
+      const newBookList = initBookList
+        .filter((b) => b.id !== updateBook.id)
+        .concat([updateBook]);
+
+      this.setState(
+        () => ({
+          bookList: newBookList,
+        }),
+        localStorage.setItem('books', JSON.stringify([...newBookList])),
+      );
+
+      BooksAPI.update(book, newShelf).then(() => {});
+    } catch (error) {
+      console.log('Something had gone wrong');
+      alert('Something had gone wrong');
+
+      const defaultBookList = initBookList
+        .filter((b) => b.id !== book.id)
+        .concat([book]);
+      this.setState(
+        () => ({
+          bookList: defaultBookList,
+        }),
+        localStorage.setItem('books', JSON.stringify([...defaultBookList])),
+      );
+    }
   };
 
   handleSearchBooks = (queryBooks) => {
