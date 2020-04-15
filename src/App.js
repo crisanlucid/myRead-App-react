@@ -22,17 +22,22 @@ class BooksApp extends React.Component {
     const bookList = JSON.parse(localStorage.getItem('books'));
 
     let isUpdate = false;
-    if (!bookList) isUpdate = true;
 
     if (Array.isArray(bookList) && bookList.length === 0) {
       isUpdate = true;
     }
 
-    this.setState(() => ({ shelfList: SHELF_LIST }));
-
+    //update
     if (queryBooks && isUpdate) {
+      this.setState(() => ({ shelfList: SHELF_LIST }));
       //search from API
       this.searchBooksAPI(queryBooks);
+    }
+    //init data
+    if (!queryBooks) {
+      BooksAPI.getAll().then((data) =>
+        this.setState(() => ({ bookList: data, shelfList: SHELF_LIST })),
+      );
     }
   };
 
