@@ -98,6 +98,7 @@ class BooksApp extends React.Component {
     BooksAPI.search(queryBooks).then((response) => {
       let newBookList = [];
       if (Array.isArray(response)) {
+        /* eslint-disable no-sequences */
         newBookList = response.map((book) => ((book.shelf = 'none'), book));
       }
       this.setState(
