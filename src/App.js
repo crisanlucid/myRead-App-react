@@ -2,7 +2,7 @@ import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import ListBooksPage from './pages/ListBooksPage';
 import SearchBooksPage from './pages/SearchBooksPage';
 
@@ -113,28 +113,30 @@ class BooksApp extends React.Component {
     const { bookList, shelfList } = this.state;
     return (
       <div className='app'>
-        <Route
-          exact
-          path='/'
-          component={() => (
-            <ListBooksPage
-              books={bookList}
-              shelves={shelfList}
-              onUpdateBook={this.handleUpdateBook}
-            />
-          )}
-        />
-        <Route
-          path='/search'
-          render={() => (
-            <SearchBooksPage
-              books={bookList}
-              shelves={shelfList}
-              onUpdateBook={this.handleUpdateBook}
-              onSearchBooks={this.handleSearchBooks}
-            />
-          )}
-        />
+        <Switch>
+          <Route
+            path='/search'
+            render={() => (
+              <SearchBooksPage
+                books={bookList}
+                shelves={shelfList}
+                onUpdateBook={this.handleUpdateBook}
+                onSearchBooks={this.handleSearchBooks}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/'
+            component={() => (
+              <ListBooksPage
+                books={bookList}
+                shelves={shelfList}
+                onUpdateBook={this.handleUpdateBook}
+              />
+            )}
+          />
+        </Switch>
       </div>
     );
   }
