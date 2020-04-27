@@ -9,14 +9,15 @@ const ShelfBooks = ({ books, shelves, onUpdateBook, title }) => {
       {title && <h2 className='bookshelf-title'>{title}</h2>}
       <div className='bookshelf-books'>
         <ol className='books-grid'>
-          {books.map((book) => (
-            <Book
-              book={book}
-              key={`${book.title}-${book.id}`}
-              shelves={shelves}
-              onUpdateBook={onUpdateBook}
-            />
-          ))}
+          {books &&
+            books.map((book) => (
+              <Book
+                book={book}
+                key={`${book.title}-${book.id}`}
+                shelves={shelves}
+                onUpdateBook={onUpdateBook}
+              />
+            ))}
         </ol>
       </div>
     </div>
@@ -24,7 +25,7 @@ const ShelfBooks = ({ books, shelves, onUpdateBook, title }) => {
 };
 
 ShelfBooks.propTypes = {
-  books: PropTypes.array.isRequired,
+  books: PropTypes.array,
   shelves: PropTypes.array.isRequired,
   onUpdateBook: PropTypes.func.isRequired,
 };

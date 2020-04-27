@@ -57,30 +57,24 @@ class ListBooksPage extends PureComponent {
         </div>
         <div className='list-books-content'>
           <div>
-            {booksCurrentlyReading && (
-              <ShelfBook
-                books={booksCurrentlyReading}
-                title='Currently Reading'
-                shelves={this.props.shelves}
-                onUpdateBook={this.props.onUpdateBook}
-              />
-            )}
-            {booksWantToRead && (
-              <ShelfBook
-                books={booksWantToRead}
-                title='Want to Read'
-                shelves={this.props.shelves}
-                onUpdateBook={this.props.onUpdateBook}
-              />
-            )}
-            {booksRead && (
-              <ShelfBook
-                books={booksRead}
-                title='Read'
-                shelves={this.props.shelves}
-                onUpdateBook={this.props.onUpdateBook}
-              />
-            )}
+            <ShelfBook
+              books={booksCurrentlyReading}
+              title='Currently Reading'
+              shelves={this.props.shelves}
+              onUpdateBook={this.props.onUpdateBook}
+            />
+            <ShelfBook
+              books={booksWantToRead}
+              title='Want to Read'
+              shelves={this.props.shelves}
+              onUpdateBook={this.props.onUpdateBook}
+            />
+            <ShelfBook
+              books={booksRead}
+              title='Read'
+              shelves={this.props.shelves}
+              onUpdateBook={this.props.onUpdateBook}
+            />
           </div>
         </div>
         <div className='open-search'>
