@@ -18,27 +18,13 @@ class BooksApp extends React.Component {
   };
 
   componentDidMount = () => {
-    const queryBooks = localStorage.getItem('searchBook');
-    const bookList = JSON.parse(localStorage.getItem('books'));
-
-    let isUpdate = false;
-
-    if (Array.isArray(bookList) && bookList.length === 0) {
-      isUpdate = true;
-    }
-
-    //update
-    if (queryBooks && isUpdate) {
-      this.setState(() => ({ shelfList: SHELF_LIST }));
-      //search from API
-      this.searchBooksAPI(queryBooks);
-    }
-    //init data
-    if (!queryBooks) {
-      BooksAPI.getAll().then((data) =>
+    BooksAPI.getAll()
+      .then((data) =>
         this.setState(() => ({ bookList: data, shelfList: SHELF_LIST })),
-      );
-    }
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   handleUpdateBook = (event, book) => {
@@ -62,7 +48,7 @@ class BooksApp extends React.Component {
         localStorage.setItem('books', JSON.stringify([...newBookList])),
       );
 
-      BooksAPI.update(book, newShelf).then(() => {});
+      BooksAPI.update(book, newShelf);
     } catch (error) {
       console.log('Something had gone wrong');
       alert('Something had gone wrong');
